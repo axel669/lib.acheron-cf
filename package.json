@@ -1,0 +1,16 @@
+{
+  "name": "lib.acheron-cf",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/main.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Axel",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ]
+}
