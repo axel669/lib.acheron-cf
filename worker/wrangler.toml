@@ -1,0 +1,8 @@
+name = "acheron-auth"
+compatibility_date = "2024-06-03"
+
+main = "artifacts/main.js"
+workers_dev = false
+
+[build]
+command = "pnpm run build"
