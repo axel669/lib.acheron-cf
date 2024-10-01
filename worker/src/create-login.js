@@ -1,19 +1,44 @@
 import jwt from "@tsndr/cloudflare-worker-jwt"
 import { setCookie } from "hono/cookie"
 
+const exchangeFunc = {
+    query: (url, params) => fetch(
+        `${url}?${params.toString()}`,
+        {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/x-www-form-urlencoded"
+            }
+        }
+    ),
+    body: (url, params) => fetch(
+        url,
+        {
+            method: "POST",
+            headers: {
+                "Accept": "application/json",
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: params,
+        }
+    ),
+}
+
 /**
 @param {{
     provider: string
-    verificationURL: string
+    verifyPath: string
     createToken: (info: { access_token: string }) => Promise<object>
 }} config
 @return {void}
 */
 export default (config) => {
-    const { verificationURL, createToken, provider } = config
+    const { verifyPath, createToken, provider } = config
     return async (c) => {
         const info = await c.req.json()
         const url = new URL(c.req.url)
+        // I could do successive calls with .add on the url, but this is nicer
         const params = new URLSearchParams({
             "client_id": info.clientID,
             "client_secret": info.clientSecret,
@@ -21,14 +46,21 @@ export default (config) => {
             "grant_type": "authorization_code",
             "redirect_uri": new URL(`./login/${provider}`, url.origin).href,
         })
-        const authResponse = await fetch(
-            `${verificationURL}?${params.toString()}`,
-            {
-                method: "POST",
-                headers: {
-                    "Accept": "application/json"
-                }
-            }
+        const verifyURL = new URL(verifyPath, info.origin)
+        // console.log(verifyURL.href)
+        // const authResponse = await fetch(
+        //     `${verifyURL.href}?${params.toString()}`,
+        //     {
+        //         method: "POST",
+        //         headers: {
+        //             "Accept": "application/json",
+        //             "Content-Type": "application/x-www-form-urlencoded"
+        //         }
+        //     }
+        // )
+        const authResponse = await exchangeFunc[info.exchangeType](
+            verifyURL.href,
+            params
         )
         const authInfo = await authResponse.json()
 
