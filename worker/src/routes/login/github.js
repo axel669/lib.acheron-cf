@@ -2,8 +2,8 @@ import createLogin from "../../create-login.js"
 
 export const $post = createLogin({
     provider: "github",
-    verificationURL: "https://github.com/login/oauth/access_token",
-    createToken: async (authInfo) => {
+    verifyPath: "/login/oauth/access_token",
+    createToken: async (authInfo, config) => {
         const githubResponse = await fetch(
             "https://api.github.com/user",
             {
@@ -16,6 +16,7 @@ export const $post = createLogin({
 
         const user = await githubResponse.json()
         return {
+            clientID: config.clientID,
             username: user.login,
             email: user.email,
             avatar: user.avatar_url,

@@ -4,7 +4,7 @@ import createLogin from "../../create-login.js"
 
 export const $post = createLogin({
     provider: "twitch",
-    verificationURL: "https://id.twitch.tv/oauth2/token",
+    verifyPath: "/oauth2/token",
     createToken: async (info, config) => {
         const { clientID } = config
         const userInfo = jwt.decode(info.id_token).payload
@@ -19,7 +19,6 @@ export const $post = createLogin({
             }
         )
         const twitchUser = await twitchInfo.json()
-        // console.log(JSON.stringify(twitchUser, null, 2))
         const data = twitchUser.data[0]
         return {
             clientID,
