@@ -22,7 +22,7 @@ const exchangeFunc = {
             },
             body: params,
         }
-    ),
+    )
 }
 
 /**
@@ -47,17 +47,6 @@ export default (config) => {
             "redirect_uri": new URL(`./login/${provider}`, url.origin).href,
         })
         const verifyURL = new URL(verifyPath, info.origin)
-        // console.log(verifyURL.href)
-        // const authResponse = await fetch(
-        //     `${verifyURL.href}?${params.toString()}`,
-        //     {
-        //         method: "POST",
-        //         headers: {
-        //             "Accept": "application/json",
-        //             "Content-Type": "application/x-www-form-urlencoded"
-        //         }
-        //     }
-        // )
         const authResponse = await exchangeFunc[info.exchangeType](
             verifyURL.href,
             params
