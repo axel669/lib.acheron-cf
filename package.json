@@ -1,5 +1,5 @@
 {
-  "name": "lib.acheron-cf",
+  "name": "@axel669/acheron",
   "version": "0.1.0",
   "description": "",
   "main": "lib/main.js",
@@ -11,6 +11,7 @@
   "author": "Axel",
   "license": "MIT",
   "files": [
-    "lib"
+    "lib",
+    "worker"
   ]
 }
