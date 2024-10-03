@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+    <head>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=5,minimum-scale=1,width=device-width">
+        <title>Acheron CF Testing</title>
+    </head>
+    <body ws-x="@@theme:tron">
+        <script src="https://cdn.jsdelivr.net/npm/@axel669/windstorm@0.4.6/dist/browser.js"></script>
+        <ws-paper ws-x="[m.x auto] [w 240px] [$outline]">
+            <ws-flex ws-x="[$content] [over auto]">
+                <pre></pre>
+            </ws-flex>
+        </ws-paper>
+        <script type="module">
+            const res = await fetch("/user", { credentials: "include" })
+            document.querySelector("pre").innerText = JSON.stringify(
+                await res.json(),
+                null,
+                4
+            )
+        </script>
+    </body>
+</html>
