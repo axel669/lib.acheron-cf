@@ -3,6 +3,11 @@ An auth system built for use with cloudflare workers and pages functions that
 does all of the annoying logic and validation for various authentication
 methods.
 
+## Installation
+```bash
+pnpm add @axel669/acheron
+```
+
 ## Usage
 To use acheron, you will need to deploy the worker that is distributed with the
 library, or in the repo if thats more your speed. Each auth type will have its
