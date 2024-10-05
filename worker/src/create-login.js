@@ -69,6 +69,7 @@ export default (config) => {
             {
                 httpOnly: true,
                 sameSite: "lax",
+                secure: true,
                 expires: new Date(Date.now() + 691200000)
             }
         )
