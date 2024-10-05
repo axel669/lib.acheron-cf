@@ -53,7 +53,7 @@ export default (config) => {
         )
         const authInfo = await authResponse.json()
 
-        if (authResponse.ok === false) {
+        if (authResponse.ok === false || authInfo.error !== undefined) {
             c.status(401)
             return c.json(authInfo)
         }
