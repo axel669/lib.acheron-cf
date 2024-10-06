@@ -8,91 +8,55 @@ methods.
 pnpm add @axel669/acheron
 ```
 
-## Usage
-To use acheron, you will need to deploy the worker that is distributed with the
-library, or in the repo if thats more your speed. Each auth type will have its
-own set of environment variables, documented with each type.
-
 ### Installing the Worker
-The worker comes with all the configuration needed to deploy to cloudflare. If
-you use something other than pnpm, change the build command in the wrangler.toml
-file to use whichever package manager you have installed. Be sure to install the
-dependencies before attempting to deploy, or the build will fail. The name of
-the worker can be changed without causing problems, so long as the binding it's
-used with has the correct name.
+In order to use the auth functions provided in the library, there needs to be a
+cloudflare worker deployed to the same account that will be bound to the calling
+code. The library ships with a copy of the worker (minus installed packages),
+but the worker can also be pulled from the repo and deployed.
 
-### Use in Pages Functions
-`_middleware.js`
-```js
-// import the auth type you want to use (see list of supported types)
-import { githubAuth } from "@axel669/acheron"
+> The worker can also be run locally to test things without deploying to CF
 
-// recommended to place the auth in a middleware file in front of all the
-// requests you want to secure, but the context object is the same for routes
-// so the library could be used to secure specific routes instead.
-export const onRequest = async (context, next) => {
-    const result = await githubAuth(
-        // pass the context as is
-        context,
-        // array of oidc scopes to request; check the provider for valid config
-        ["openid", "profile", "email"]
-    )
-    // if the auth gives back a response object, it contains information on
-    // redirecting for auth to work. recommended to simple return the response
-    // but it is just a Response object and can be used as one.
-    if (result.res !== undefined) {
-        return result.res
-    }
-    // the auth worker returns the currently authenticated user if everything
-    // is successful, save this however you need to.
-    context.data.user = result.user
-    return await context.next()
-}
-```
+Steps:
+- Install the worker dependencies
+    > The worker has a package.json file that is ready to go for this
+- Check the wrangler configuration
+    > The worker wrangler.toml has a config that is ready to be deployed, but
+    > any of the settings can be changed if needed, just be sure to note what
+    > changes are made when binding to it
+- Deploy the worker using wrangler
 
-### Use in other Workers
-```js
-// import the auth type you want to use (see list of supported types)
-import { githubAuth } from "@axel669/acheron"
+## Usage
+The acheron worker is not made to be called directly, instead use one of the
+library functions for the corresponding auth type, as the auth functions have
+additional logic to handle being inside an application. The auth functions
+should be used as middleware (run before route code) to ensure that auth is
+handled before route code needs to use its results. To see specifics on how to
+use the auth functions, check out the examples folder in the repo.
 
-export default {
-    async fetch (request, env) {
-        const result = await githubAuth(
-            // pass the request and env to the auth function
-            { request, env },
-            // array of oidc scopes to request; check the provider for valid config
-            ["openid", "profile", "email"]
-        )
-        // if the auth gives back a response object, it contains information on
-        // redirecting for auth to work. recommended to simple return the response
-        // but it is just a Response object and can be used as one.
-        if (result.res !== undefined) {
-            return result.res
-        }
-        // the auth worker returns the currently authenticated user if everything
-        // is successful, save this however you need to.
-        const user = result.user
-        // your code using the results
-    }
-}
-```
+### Env Variables
 
-> If using Hono with CF Workers, the Context object from hono is not a valid
-> argument for the function, instead use
-> `{ request: context.req.raw, env: context.env }`
+#### Required for All Auth
+- jwt_secret
+    > The secret that will be used to sign and verify the JWTs used
+    > by the library for auth
 
-## Supported Auth Types + Env Vars
-- Github `githubAuth`
-    - github_client_id
-    - github_client_secret
-- Twitch `twitchAuth`
-    - twitch_client_id
-    - twitch_client_secret
-- Auth0 `auth0Auth`
-    - auth0_client_id
-    - auth0_client_secret
-    - auth0_origin
-- Okta `oktaAuth`
-    - okta_client_id
-    - okta_client_secret
-    - okta_origin
+#### Optional for All Auth
+- redirect_origin
+    > If set, the library will use this origin for building the redirect URLs
+    > that are required for the auth processes. If not set, the library will use
+    > the origin the application is deployed on.
+
+#### Github Variables
+- github_client_id
+- github_client_secret
+#### Twitch Variables
+- twitch_client_id
+- twitch_client_secret
+#### Auth0 Variables
+- auth0_client_id
+- auth0_client_secret
+- auth0_origin
+#### Okta Variables
+- okta_client_id
+- okta_client_secret
+- okta_origin
