@@ -14,7 +14,12 @@ cloudflare worker deployed to the same account that will be bound to the calling
 code. The library ships with a copy of the worker (minus installed packages),
 but the worker can also be pulled from the repo and deployed.
 
-> The worker can also be run locally to test things without deploying to CF
+> The worker can also be run locally to test things without deploying to CF.
+> The worker has a single env var (`log_level`) that can be set if more
+> information about the worker is required. Values are: `"debug", "info", "warn"
+> "error", "none"`. If not set, it will default to `"error"`. If set to
+> `"debug"` the worker will log auth config and token details without masking,
+> only use this option running locally if you are seeing errors.
 
 Steps:
 - Install the worker dependencies
@@ -34,6 +39,8 @@ handled before route code needs to use its results. To see specifics on how to
 use the auth functions, check out the examples folder in the repo.
 
 ### Env Variables
+_NOTE: All variables that deal with origins must include the protocol + domain
+(ex: https://company.okta.com, http://localhost:45067)._
 
 #### Required for All Auth
 - jwt_secret
@@ -41,10 +48,13 @@ use the auth functions, check out the examples folder in the repo.
     > by the library for auth
 
 #### Optional for All Auth
-- redirect_origin
+- app_origin
     > If set, the library will use this origin for building the redirect URLs
     > that are required for the auth processes. If not set, the library will use
-    > the origin the application is deployed on.
+    > the origin the application is deployed on. The main use of this is for
+    > testing workers locally that have cf routes set, as wrangler will use that
+    > origin internally for local dev, even though the code is running on
+    > the localhost domain.
 
 #### Github Variables
 - github_client_id
@@ -60,3 +70,6 @@ use the auth functions, check out the examples folder in the repo.
 - okta_client_id
 - okta_client_secret
 - okta_origin
+
+## Examples
+See the examples folder of the repo for usage in a few scenarios.
