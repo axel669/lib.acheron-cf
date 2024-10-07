@@ -6,6 +6,9 @@
   "scripts": {
     "start": "wrangler pages dev"
   },
+  "dependencies": {
+    "@axel669/acheron": "../../lib/main.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

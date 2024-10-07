@@ -1,4 +1,5 @@
-import { auth0Auth, twitchAuth, githubAuth, oktaAuth } from "../../lib/main.js"
+// import { auth0Auth, twitchAuth, githubAuth, oktaAuth } from "../../../"
+import { auth0Auth, twitchAuth, githubAuth, oktaAuth } from "../../../lib/main.js"
 
 const scopes = {
     github: [
@@ -47,7 +48,7 @@ const func = {
     okta: oktaAuth,
 }
 // Change this to whichever provider you want to test
-const provider = "twitch"
+const provider = "github"
 
 export const onRequest = async (context) => {
     const result = await func[provider](context, scopes[provider])
