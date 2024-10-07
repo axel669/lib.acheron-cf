@@ -12,6 +12,7 @@
   "author": "",
   "license": "",
   "dependencies": {
+    "@axel669/json-log": "^0.2.0",
     "@axel669/rollup-hono-files": "^0.1.2",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",

@@ -6,3 +6,6 @@ workers_dev = false
 
 [build]
 command = "pnpm run build"
+
+[vars]
+log_level = "debug"

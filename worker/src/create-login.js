@@ -36,15 +36,18 @@ const exchangeFunc = {
 export default (config) => {
     const { verifyPath, createToken, provider } = config
     return async (c) => {
-        const info = await c.req.json()
         const url = new URL(c.req.url)
+        const info = await c.req.json()
+        const log = c.get("log").child({ route: url.pathname })
+
+        log.debug("configuration info", { info })
         // I could do successive calls with .add on the url, but this is nicer
         const params = new URLSearchParams({
             "client_id": info.clientID,
             "client_secret": info.clientSecret,
             "code": info.code,
             "grant_type": "authorization_code",
-            "redirect_uri": new URL(`./login/${provider}`, url.origin).href,
+            "redirect_uri": new URL(`./login/${provider}`, info.appOrigin).href,
         })
         const verifyURL = new URL(verifyPath, info.origin)
         const authResponse = await exchangeFunc[info.exchangeType](
@@ -54,11 +57,13 @@ export default (config) => {
         const authInfo = await authResponse.json()
 
         if (authResponse.ok === false || authInfo.error !== undefined) {
+            log.info("auth error", { status: authResponse.status, authInfo })
             c.status(401)
             return c.json(authInfo)
         }
 
         const tokenData = await createToken(authInfo, info)
+        log.debug("token data", { tokenData })
 
         const token = await jwt.sign(tokenData, info.jwtSecret)
 

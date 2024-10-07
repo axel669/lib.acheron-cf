@@ -9,9 +9,7 @@ export default {
         format: "esm"
     },
     plugins: [
-        fileRoutes({
-            debug: true
-        }),
+        fileRoutes({}),
         resolve(),
         commonjs(),
     ]

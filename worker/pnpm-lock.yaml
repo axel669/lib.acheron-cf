@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@axel669/json-log':
+        specifier: ^0.2.0
+        version: 0.2.0
       '@axel669/rollup-hono-files':
         specifier: ^0.1.2
         version: 0.1.2(hono@4.6.1)
@@ -28,6 +31,9 @@ importers:
         version: 4.21.3
 
 packages:
+
+  '@axel669/json-log@0.2.0':
+    resolution: {integrity: sha512-Wi1CxiSrVnJN8op7ItW4ZKhpnU2m3A1zvw8BQFdS3CCZB7nzQQMdf8OXsd+P91mGwOZjaolPnZle3wI7baaLag==}
 
   '@axel669/rollup-hono-files@0.1.2':
     resolution: {integrity: sha512-SsQieU38TsvKsM8DAHHnC0x2xexL1chcINMApQDH1vORSVCB/5Vr3hXed5MfMENsTwOLxfjfxVL2WqXzqfLg1Q==}
@@ -417,6 +423,8 @@ packages:
     engines: {node: '>=12'}
 
 snapshots:
+
+  '@axel669/json-log@0.2.0': {}
 
   '@axel669/rollup-hono-files@0.1.2(hono@4.6.1)':
     dependencies:
