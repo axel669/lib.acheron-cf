@@ -77,3 +77,7 @@ _NOTE: All variables that deal with origins must include the protocol + domain
 
 ## Examples
 See the examples folder of the repo for usage in a few scenarios.
+
+The pages and worker examples show basic middlware usage, the hono-worker
+example shows how the auth result can be used to customize where login is
+enforced in an app.
