@@ -38,6 +38,9 @@ should be used as middleware (run before route code) to ensure that auth is
 handled before route code needs to use its results. To see specifics on how to
 use the auth functions, check out the examples folder in the repo.
 
+> In order for acheron to route properly, your app will need to have a route for
+> the login methods to respond to (`/login/<auth type>`).
+
 ### Env Variables
 These env vars need to be configured in the worker/pages func that is calling
 the auth. That allows multiple applications to reuse the library worker, since
