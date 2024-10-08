@@ -1,0 +1,13 @@
+name = "acheron-hono-worker-example"
+compatibility_date = "2024-09-02"
+main = "src/main.js"
+
+services = [
+    { binding = "acheron", service = "acheron-auth" }
+]
+routes = [
+    { pattern = "hono-example.site.com/worker-example*", zone_name = "site.com" }
+]
+
+[dev]
+port = 8788
