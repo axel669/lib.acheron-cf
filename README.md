@@ -39,6 +39,10 @@ handled before route code needs to use its results. To see specifics on how to
 use the auth functions, check out the examples folder in the repo.
 
 ### Env Variables
+These env vars need to be configured in the worker/pages func that is calling
+the auth. That allows multiple applications to reuse the library worker, since
+it doesn't need to be configured for every application.
+
 _NOTE: All variables that deal with origins must include the protocol + domain
 (ex: https://company.okta.com, http://localhost:45067)._
 
