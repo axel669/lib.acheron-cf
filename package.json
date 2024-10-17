@@ -1,12 +1,18 @@
 {
   "name": "@axel669/acheron",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "",
   "main": "lib/main.js",
   "type": "module",
   "repository": "github:axel669/lib.acheron-cf",
+  "bin": {
+    "ach-setup": "./cli/install.js",
+    "ach-run": "./cli/run.sh",
+    "ach-win-run": "./cli/run.bat",
+    "ach-deploy": "./cli/deploy.sh",
+    "ach-win-deploy": "./cli/deploy.bat"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Axel",
@@ -17,5 +23,8 @@
   "files": [
     "lib",
     "worker"
-  ]
+  ],
+  "dependencies": {
+    "execa": "^9.4.0"
+  }
 }

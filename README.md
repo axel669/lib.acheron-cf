@@ -3,6 +3,8 @@ An auth system built for use with cloudflare workers and pages functions that
 does all of the annoying logic and validation for various authentication
 methods.
 
+[Change Log](./changelog.md)
+
 ## Installation
 ```bash
 pnpm add @axel669/acheron
@@ -23,12 +25,17 @@ but the worker can also be pulled from the repo and deployed.
 
 Steps:
 - Install the worker dependencies
+    - The library includes an npm bin script to install deps called `ach-setup`
     > The worker has a package.json file that is ready to go for this
 - Check the wrangler configuration
+    - The library includes an npm bin script to run the worker. On windows
+        machines use `ach-win-run`, and for other systems use `ach-run`
     > The worker wrangler.toml has a config that is ready to be deployed, but
     > any of the settings can be changed if needed, just be sure to note what
     > changes are made when binding to it
 - Deploy the worker using wrangler
+    - The library includes an npm bin script to deploy the worker. On windows
+        machines use `ach-win-deploy`, and for other systems use `ach-deploy`
 
 ## Usage
 The acheron worker is not made to be called directly, instead use one of the
