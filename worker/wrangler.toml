@@ -8,4 +8,4 @@ workers_dev = false
 command = "pnpm run build"
 
 [vars]
-log_level = "debug"
+log_level = "error"
