@@ -63,9 +63,13 @@ export default (config) => {
         }
 
         const tokenData = await createToken(authInfo, info)
+        const expire = new Date(Date.now() + 691200000)
         log.debug("token data", { tokenData })
 
-        const token = await jwt.sign(tokenData, info.jwtSecret)
+        const token = await jwt.sign(
+            { ...tokenData, exp: expire },
+            info.jwtSecret
+        )
 
         setCookie(
             c,
@@ -75,7 +79,7 @@ export default (config) => {
                 httpOnly: true,
                 sameSite: "lax",
                 secure: true,
-                expires: new Date(Date.now() + 691200000)
+                expires: expire
             }
         )
         return c.text("")
