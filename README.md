@@ -46,7 +46,8 @@ handled before route code needs to use its results. To see specifics on how to
 use the auth functions, check out the examples folder in the repo.
 
 > In order for acheron to route properly, your app will need to have a route for
-> the login methods to respond to (`/login/<auth type>`).
+> the login methods to respond to (`/login/<auth type>`), as well as a logout
+> route (`/logout`).
 
 ### Env Variables
 These env vars need to be configured in the worker/pages func that is calling
@@ -69,6 +70,11 @@ _NOTE: All variables that deal with origins must include the protocol + domain
     > testing workers locally that have cf routes set, as wrangler will use that
     > origin internally for local dev, even though the code is running on
     > the localhost domain.
+- login_dest
+    > If set, the library will redirect to this pathname on the app origin when
+    > a user successfully logs in (logging in and directing to a dashboard for
+    > example). If not set, the library will redirect to the top level of the
+    > app origin.
 
 #### Github Variables
 - github_client_id
