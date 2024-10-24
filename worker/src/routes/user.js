@@ -13,7 +13,8 @@ export const $post = async (c) => {
     const { jwtSecret } = await c.req.json()
     const valid = await jwt.verify(obol, jwtSecret)
     if (valid === false) {
-        return c.json(null)
+        c.status(401)
+        return c.json({ error: "Invalid session" })
     }
     const user = await jwt.decode(obol)
     return c.json(user.payload)
